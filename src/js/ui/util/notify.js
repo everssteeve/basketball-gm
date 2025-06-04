@@ -63,7 +63,7 @@ const notify = (message, title, {extraClass, persistent = false, timeOut}) => {
     // Limit displayed notifications to 5 - all the persistent ones, plus the newest ones
     let numToDelete = container.childNodes.length - 4; // 4 instead of 5 because the check happens before the new notification is shown
     if (numToDelete > 0) {
-        for (let i = 0; i <= container.childNodes.length; i++) {
+        for (let i = 0; i < container.childNodes.length; i++) {
             if (container.childNodes[i].classList.contains('notification-delete')) {
                 // Already being deleted
                 numToDelete -= 1;

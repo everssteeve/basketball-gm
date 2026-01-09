@@ -9,7 +9,7 @@ const HallOfFame = ({players}) => {
 
     const superCols = [{
         title: '',
-        colspan: 6,
+        colspan: 8,
     }, {
         title: 'Best Season',
         colspan: 8,
@@ -18,7 +18,7 @@ const HallOfFame = ({players}) => {
         colspan: 7,
     }];
 
-    const cols = getCols('Name', 'Pos', 'Drafted', 'Retired', 'Pick', 'Peak Ovr', 'Year', 'Team', 'GP', 'Min', 'PPG', 'Reb', 'Ast', 'PER', 'GP', 'Min', 'PPG', 'Reb', 'Ast', 'PER', 'EWA');
+    const cols = getCols('Name', 'Pos', 'Drafted', 'Retired', 'Pick', 'Peak Ovr', 'MVP', 'Champ', 'Year', 'Team', 'GP', 'Min', 'PPG', 'Reb', 'Ast', 'PER', 'GP', 'Min', 'PPG', 'Reb', 'Ast', 'PER', 'EWA');
 
     const rows = players.map(p => {
         return {
@@ -30,6 +30,8 @@ const HallOfFame = ({players}) => {
                 p.retiredYear,
                 p.draft.round > 0 ? `${p.draft.round}-${p.draft.pick}` : '',
                 p.peakOvr,
+                p.mvpCount,
+                p.championshipsCount,
                 p.bestStats.season,
                 <a href={helpers.leagueUrl(["roster", p.bestStats.abbrev, p.bestStats.season])}>{p.bestStats.abbrev}</a>,
                 p.bestStats.gp,
@@ -61,7 +63,7 @@ const HallOfFame = ({players}) => {
 
         <DataTable
             cols={cols}
-            defaultSort={[20, 'desc']}
+            defaultSort={[22, 'desc']}
             name="HallOfFame"
             pagination
             rows={rows}

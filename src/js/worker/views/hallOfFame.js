@@ -12,7 +12,7 @@ async function updatePlayers(
         let players = await idb.getCopies.players({retired: true});
         players = players.filter(p => p.hof);
         players = await idb.getCopies.playersPlus(players, {
-            attrs: ["pid", "name", "draft", "retiredYear", "statsTids"],
+            attrs: ["pid", "name", "draft", "retiredYear", "statsTids", "awardsGrouped"],
             ratings: ["ovr", "pos"],
             stats: ["season", "abbrev", "tid", "gp", "min", "trb", "ast", "pts", "per", "ewa"],
             fuzz: true,
@@ -44,6 +44,17 @@ async function updatePlayers(
                 }
             }
             p.legacyTid = parseInt(Object.keys(p.teamSums).reduce((teamA, teamB) => (p.teamSums[teamA] > p.teamSums[teamB] ? teamA : teamB)), 10);
+
+            // Count MVP and Championship awards
+            p.mvpCount = 0;
+            p.championshipsCount = 0;
+            for (const award of p.awardsGrouped) {
+                if (award.type === 'Most Valuable Player') {
+                    p.mvpCount = award.count;
+                } else if (award.type === 'Won Championship') {
+                    p.championshipsCount = award.count;
+                }
+            }
         }
 
         return {
